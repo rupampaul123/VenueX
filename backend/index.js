@@ -12,6 +12,17 @@ const app = express();
 const port = 3000;
 const JWT_SECRET = "123";
 
+// Detect if running in production
+const isProduction = process.env.NODE_ENV === 'production';
+
+// Cookie options for cross-origin requests
+const cookieOptions = {
+  httpOnly: true,
+  secure: isProduction,
+  sameSite: isProduction ? 'none' : 'lax',
+  maxAge: 24 * 60 * 60 * 1000 // 24 hours
+};
+
 app.use(cookie());
 app.use(cors({
   origin: [
@@ -42,7 +53,7 @@ app.post('/signup', async (req, res) => {
     await newUser.save();
 
     const token = jwt.sign({id: newUser._id, email: newUser.email, role: newUser.role }, JWT_SECRET);
-    res.cookie('token', token, { httpOnly: true, })
+    res.cookie('token', token, cookieOptions);
     return res.status(201).json({ message: "user created successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -59,7 +70,7 @@ app.post('/login', async (req, res) => {
     if (!match) return res.status(400).json({ message: "Wrong password" });
 
     const token = jwt.sign({ id: existing._id, email: existing.email, role: existing.role }, JWT_SECRET);
-    res.cookie('token', token, { httpOnly: true, });
+    res.cookie('token', token, cookieOptions);
 
     return res.status(200).json({ message: "user logged in successfully" });
   } catch (err) {
@@ -79,6 +90,7 @@ app.get("/navbar", async (req, res) => {
     }
   } catch(err) {
     console.log("error", err);
+    return res.status(401).json({ message: "Invalid token" });
   }
 });
 
@@ -106,8 +118,10 @@ app.get("/me", (req, res) => {
 app.get("/add", isAdmin, (req,res) => {
   try {
     console.log("is admin");
+    res.json({ message: "Admin access granted" });
   } catch(err) {
     console.log("not admin");
+    res.status(403).json({ message: "Not admin" });
   }
 });
 
@@ -138,11 +152,12 @@ app.get("/profile", async (req, res) => {
     }
   } catch(err) {
     console.log(err);
+    res.status(500).json({ message: "Error fetching profile" });
   }
 });
 
 app.get("/logout", (req, res) => {
-  res.clearCookie("token", { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: process.env.NODE_ENV === "production" ? "none" : "lax" });
+  res.clearCookie("token", cookieOptions);
   return res.json({ message: "Logged out successfully" });
 });
 
@@ -151,8 +166,10 @@ app.get("/details/:id", async (req, res) => {
     const id = req.params.id;
     const result = await venue.findById(id);
     if(result) res.json(result);
+    else res.status(404).json({ message: "Venue not found" });
   } catch(err) {
     console.log(err);
+    res.status(500).json({ message: "Error fetching venue details" });
   }
 });
 
@@ -192,9 +209,12 @@ app.get("/booked", async (req, res) => {
       const userid = decoded.id;
       const booking = await bookings.find({userid});
       res.json(booking);
+    } else {
+      res.status(401).json({ message: "Not authenticated" });
     }
   } catch(err) {
     console.log(err);
+    res.status(500).json({ message: "Error fetching bookings" });
   }
 });
 
@@ -206,9 +226,12 @@ app.get("/listed", async (req, res) => {
       const userid = decoded.id;
       const listings = await venue.find({userid});
       res.json(listings);
+    } else {
+      res.status(401).json({ message: "Not authenticated" });
     }
   } catch(err) {
     console.log(err);
+    res.status(500).json({ message: "Error fetching listings" });
   }
 });
 

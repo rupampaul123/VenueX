@@ -1,36 +1,42 @@
 import { Link } from "react-router-dom"
 import { Button } from "./button"
-import Cookies from "js-cookie";
 import { useState, useEffect } from "react";
-export default function Navbar()
-{
 
-    const[IsLoggedIn ,setIsLoggedIn] = useState(false);
-    const[role, setRole] = useState([]);
+// Automatically detect the correct API URL
+const API_URL = window.location.hostname === 'localhost' 
+  ? "http://localhost:3000" 
+  : "https://venuex-production.up.railway.app";
+
+export default function Navbar() {
+    const[IsLoggedIn, setIsLoggedIn] = useState(false);
+    const[role, setRole] = useState("");
 
     useEffect(() => {
-    fetch("https://venuex-production.up.railway.app/me", {
-      method: "GET",
-      credentials: "include", 
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (data.loggedIn) setIsLoggedIn(true);
+      fetch(`${API_URL}/me`, {
+        method: "GET",
+        credentials: "include", 
       })
-      .catch(() => setIsLoggedIn(false));
-  }, []);
+        .then(res => res.json())
+        .then(data => {
+          if (data.loggedIn) setIsLoggedIn(true);
+        })
+        .catch(() => setIsLoggedIn(false));
+    }, []);
 
-  useEffect(()=> {
-    fetch("http://localhost:3000/navbar", {
-      method: "GET",
-      credentials: "include",
-    })
-    .then(res => res.json())
-    .then(res=> setRole(res))
-    },[])
-  
+    useEffect(() => {
+      fetch(`${API_URL}/navbar`, {
+        method: "GET",
+        credentials: "include",
+      })
+      .then(res => {
+        if (!res.ok) throw new Error('Not authorized');
+        return res.json();
+      })
+      .then(res => setRole(res))
+      .catch(err => console.error('Navbar fetch error:', err));
+    }, []);
 
-     return(
+    return(
       <nav className="flex items-center justify-between px-8 md:px-16 py-5 shadow-sm bg-white/70 backdrop-blur-md sticky top-0 z-50">
         <Link to="/">
           <h1 className="text-2xl font-extrabold text-blue-600 tracking-tight">
@@ -71,4 +77,5 @@ export default function Navbar()
                 )}
         </div>
       </nav>
-)}
+    )
+}
