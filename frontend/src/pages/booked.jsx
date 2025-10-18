@@ -39,9 +39,6 @@ export default function Booked() {
     );
   }
 
-  if (!isLoggedIn) {
-    return <Navigate to="/login" />;
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-blue-50">
