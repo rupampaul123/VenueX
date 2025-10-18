@@ -16,7 +16,7 @@ export default function Signup()
     {
       e.preventDefault();
       try{
-       const res = await fetch('http://localhost:3000/signup',{
+       const res = await fetch('https://venuex-production.up.railway.app/signup',{
             method:'POST',
             credentials: "include",
             headers:{

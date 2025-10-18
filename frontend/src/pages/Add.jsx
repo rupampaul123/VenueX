@@ -9,7 +9,7 @@ export default function Add() {
   useEffect(() => {
     const checkAccess = async () => {
       try {
-        const res = await fetch("http://localhost:3000/add", {
+        const res = await fetch("https://venuex-production.up.railway.app/add", {
           credentials: "include",
         });
 

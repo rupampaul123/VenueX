@@ -15,7 +15,7 @@ export default function Details() {
   const {id} = useParams();
 
   useEffect(() => {
-    fetch(`http://localhost:3000/details/${id}`)
+    fetch(`https://venuex-production.up.railway.app/${id}`)
       .then((res) => res.json())
       .then((data) => setDetails(data))
       .catch((err) => console.error("Error fetching details:", err));

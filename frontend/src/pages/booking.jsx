@@ -16,7 +16,7 @@ export default function Booking()
       const {id} = useParams();
 
       useEffect(() => {
-          fetch("http://localhost:3000/me", {
+          fetch("https://venuex-production.up.railway.app/me", {
             credentials: "include",
           })
             .then((res) => res.json())
@@ -34,7 +34,7 @@ export default function Booking()
       async function handlesubmit(e) {
       e.preventDefault();
       try {
-        const res = await fetch(`http://localhost:3000/bookings/${id}`, {
+        const res = await fetch(`https://venuex-production.up.railway.app/${id}`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

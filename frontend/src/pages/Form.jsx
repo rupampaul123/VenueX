@@ -36,7 +36,7 @@ export default function Form()
       async function handlesubmit(e) {
         e.preventDefault();
         try {
-          const res = await fetch("http://localhost:3000/form", {
+          const res = await fetch("https://venuex-production.up.railway.app/form", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({  name, location, price, phoneno, image, content }),

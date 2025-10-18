@@ -17,7 +17,7 @@ export default function Venue() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:3000/venues")
+    fetch("https://venuex-production.up.railway.app/venues")
       .then((res) => res.json())
       .then((res) => {
         setVenues(res);

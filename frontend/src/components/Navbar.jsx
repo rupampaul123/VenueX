@@ -9,7 +9,7 @@ export default function Navbar()
     const[role, setRole] = useState([]);
 
     useEffect(() => {
-    fetch("http://localhost:3000/me", {
+    fetch("https://venuex-production.up.railway.app//me", {
       method: "GET",
       credentials: "include", 
     })

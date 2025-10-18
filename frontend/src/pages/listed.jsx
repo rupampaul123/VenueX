@@ -11,7 +11,7 @@ export default function Listed() {
 
   
   useEffect(() => {
-    fetch("http://localhost:3000/me", {
+    fetch("https://venuex-production.up.railway.app/me", {
       credentials: "include",
     })
       .then((res) => res.json())
@@ -24,7 +24,7 @@ export default function Listed() {
 
   
   useEffect(() => {
-    fetch("http://localhost:3000/listed", {
+    fetch("https://venuex-production.up.railway.app/listed", {
       credentials: "include",
     })
       .then((res) => res.json())

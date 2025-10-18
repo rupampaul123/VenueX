@@ -10,7 +10,7 @@ export default function Profile()
 
     async function handlelogout()
     {
-        await fetch("http://localhost:3000/logout", {
+        await fetch("https://venuex-production.up.railway.app/logout", {
             credentials: "include",
             method: "GET"
         })
@@ -24,7 +24,7 @@ export default function Profile()
     });
 
     useEffect(() => {
-        fetch("http://localhost:3000/profile",{
+        fetch("https://venuex-production.up.railway.app/profile",{
             method: "GET",
             credentials: "include"
         })
