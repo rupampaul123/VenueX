@@ -42,8 +42,7 @@ app.post('/signup', async (req, res) => {
     await newUser.save();
 
     const token = jwt.sign({id: newUser._id, email: newUser.email, role: newUser.role }, JWT_SECRET);
-    res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: process.env.NODE_ENV === "production" ? "none" : "lax" });
-
+    res.cookie('token', token, { httpOnly: true, })
     return res.status(201).json({ message: "user created successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -60,7 +59,7 @@ app.post('/login', async (req, res) => {
     if (!match) return res.status(400).json({ message: "Wrong password" });
 
     const token = jwt.sign({ id: existing._id, email: existing.email, role: existing.role }, JWT_SECRET);
-    res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: process.env.NODE_ENV === "production" ? "none" : "lax" });
+    res.cookie('token', token, { httpOnly: true, });
 
     return res.status(200).json({ message: "user logged in successfully" });
   } catch (err) {
