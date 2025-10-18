@@ -27,9 +27,6 @@ export default function Booking()
             .catch(() => setLoading(false));
         }, []);
 
-        if (!isLoggedIn) {
-            return <Navigate to="/login" />;
-          }
 
       async function handlesubmit(e) {
       e.preventDefault();
