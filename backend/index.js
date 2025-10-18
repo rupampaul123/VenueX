@@ -16,7 +16,7 @@ app.use(cookie());
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://venue-x.vercel.app/"
+    "https://venue-x.vercel.app"
   ],
   credentials: true,
 }));
