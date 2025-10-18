@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 import { Button } from "./button"
 import { useState, useEffect } from "react";
 
-// Automatically detect the correct API URL
+
 const API_URL = window.location.hostname === 'localhost' 
   ? "http://localhost:3000" 
   : "https://venuex-production.up.railway.app";

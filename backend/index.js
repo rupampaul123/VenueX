@@ -12,15 +12,15 @@ const app = express();
 const port = 3000;
 const JWT_SECRET = "123";
 
-// Detect if running in production
+
 const isProduction = process.env.NODE_ENV === 'production';
 
-// Cookie options for cross-origin requests
+
 const cookieOptions = {
   httpOnly: true,
   secure: isProduction,
   sameSite: isProduction ? 'none' : 'lax',
-  maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  maxAge: 24 * 60 * 60 * 1000 
 };
 
 app.use(cookie());
