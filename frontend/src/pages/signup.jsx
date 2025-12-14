@@ -1,65 +1,55 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
+export default function Signup() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phoneno, setPhoneno] = useState('');
+  const [password, setPassword] = useState('');
+  const [role, setRole] = useState('user');
 
-export default function Signup()
-{
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [phoneno, setPhoneno] = useState("");
-    const [password, setPassword] = useState("");
-    const [role, setRole] = useState("user");
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
-
-   async function handleSubmit(e)
-    {
-      e.preventDefault();
-      try{
-       const res = await fetch('https://venuex-production.up.railway.app/signup',{
-            method:'POST',
-            credentials: "include",
-            headers:{
-            "Content-Type": 'application/json'},
-            body: JSON.stringify({
-                name: name,
-                email: email,
-                password: password,
-                phoneno: Number(phoneno),
-                role: role
-            })
-        });
-        const data = await res.json();
+  async function handleSubmit(e) {
+    e.preventDefault();
+    try {
+      const res = await fetch('https://venuex-bmu7.onrender.com/signup', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: name,
+          email: email,
+          password: password,
+          phoneno: Number(phoneno),
+          role: role,
+        }),
+      });
+      const data = await res.json();
       if (res.ok) {
-        navigate("/");
+        navigate('/');
       } else {
-        alert(data.message || "Signup failed");
+        alert(data.message || 'Signup failed');
       }
     } catch (err) {
       console.error(err);
-      alert("Error connecting to server");
+      alert('Error connecting to server');
     }
-    }
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white px-4">
       <div className="w-full max-w-md bg-white rounded-2xl p-8 border border-gray-400">
-        
-
-        <h1 className="text-3xl font-bold text-[#2563EB] text-center mb-2">
-          Join VenueX
-        </h1>
+        <h1 className="text-3xl font-bold text-[#2563EB] text-center mb-2">Join VenueX</h1>
         <p className="text-center text-gray-500 mb-6">
           Find and book the perfect venue for your next event
         </p>
 
-
         <form className="space-y-5" onSubmit={handleSubmit}>
-
           <div>
-            <label className="block text-sm font-medium text-[#2563EB] mb-1">
-              Full Name
-            </label>
+            <label className="block text-sm font-medium text-[#2563EB] mb-1">Full Name</label>
             <input
               required
               type="text"
@@ -67,29 +57,25 @@ export default function Signup()
               className="w-full px-4 py-2 border border-gray-300 rounded-xl 
                          focus:outline-none focus:ring-2 focus:ring-[#2563EB] text-[#2563EB]"
               value={name}
-              onChange={((e) => setName(e.target.value))}
+              onChange={e => setName(e.target.value)}
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-[#2563EB] mb-1">
-              Email
-            </label>
+            <label className="block text-sm font-medium text-[#2563EB] mb-1">Email</label>
             <input
-              required  
+              required
               type="email"
               placeholder="you@example.com"
               className="w-full px-4 py-2 border border-gray-300 rounded-xl 
                          focus:outline-none focus:ring-2 focus:ring-[#2563EB] text-[#2563EB]"
               value={email}
-              onChange={((e) => setEmail(e.target.value))}
+              onChange={e => setEmail(e.target.value)}
             />
           </div>
 
-           <div>
-            <label className="block text-sm font-medium text-[#2563EB] mb-1">
-              Phone Number
-            </label>
+          <div>
+            <label className="block text-sm font-medium text-[#2563EB] mb-1">Phone Number</label>
             <input
               max={9999999999}
               required
@@ -98,14 +84,12 @@ export default function Signup()
               className="w-full px-4 py-2 border border-gray-300 rounded-xl 
                          focus:outline-none focus:ring-2 focus:ring-[#2563EB] text-[#2563EB]"
               value={phoneno}
-              onChange={((e) => setPhoneno(e.target.value))}
+              onChange={e => setPhoneno(e.target.value)}
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-[#2563EB] mb-1">
-              Password
-            </label>
+            <label className="block text-sm font-medium text-[#2563EB] mb-1">Password</label>
             <input
               required
               type="password"
@@ -113,21 +97,19 @@ export default function Signup()
               className="w-full px-4 py-2 border border-gray-300 rounded-xl 
                          focus:outline-none focus:ring-2 focus:ring-[#2563EB] text-[#2563EB]"
               value={password}
-              onChange={((e) => setPassword(e.target.value))}
+              onChange={e => setPassword(e.target.value)}
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-[#2563EB] mb-1">
-              Role
-            </label>
+            <label className="block text-sm font-medium text-[#2563EB] mb-1">Role</label>
             <select
               required
               placeholder="Choose Your Role"
               className="w-full px-4 py-2 border border-gray-300 rounded-xl 
                          focus:outline-none focus:ring-2 focus:ring-[#2563EB] text-[#2563EB]"
               value={role}
-              onChange={((e) => setRole(e.target.value))}
+              onChange={e => setRole(e.target.value)}
             >
               <option value="user"> Buyer </option>
               <option value="admin"> Admin </option>
@@ -154,13 +136,13 @@ export default function Signup()
         </button>
 
         <p className="mt-6 text-center text-sm text-gray-600">
-          Already have an account?{" "}
+          Already have an account?{' '}
           <Link to="/login" className="text-[#2563EB] font-semibold hover:underline">
             Login
           </Link>
         </p>
       </div>
-      <img src="/Sign up-rafiki.png" style={{height:"600px", width:"600px"}}></img>
+      <img src="/Sign up-rafiki.png" style={{ height: '600px', width: '600px' }}></img>
     </div>
   );
 }

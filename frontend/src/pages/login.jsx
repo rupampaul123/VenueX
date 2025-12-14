@@ -1,38 +1,37 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   async function handlesubmit(e) {
     e.preventDefault();
     try {
-      const res = await fetch("https://venuex-production.up.railway.app/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const res = await fetch('https://venuex-bmu7.onrender.com/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
-        credentials: "include", 
+        credentials: 'include',
       });
 
       const data = await res.json();
 
       if (res.ok) {
-        navigate("/"); 
+        navigate('/');
       } else {
-        alert(data.message || "Login failed");
+        alert(data.message || 'Login failed');
       }
     } catch (err) {
       console.error(err);
-      alert("Error connecting to server");
+      alert('Error connecting to server');
     }
   }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white px-4">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
-
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-[#2563EB]">VenueX</h1>
           <p className="text-gray-600 mt-2">Welcome back! Please log in.</p>
@@ -40,16 +39,13 @@ export default function Login() {
 
         <form className="space-y-6" onSubmit={handlesubmit}>
           <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-[#2563EB]"
-            >
+            <label htmlFor="email" className="block text-sm font-medium text-[#2563EB]">
               Email Address
             </label>
             <input
               required
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={e => setEmail(e.target.value)}
               type="email"
               id="email"
               placeholder="you@example.com"
@@ -59,16 +55,13 @@ export default function Login() {
           </div>
 
           <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-[#2563EB]"
-            >
+            <label htmlFor="password" className="block text-sm font-medium text-[#2563EB]">
               Password
             </label>
             <input
               required
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={e => setPassword(e.target.value)}
               type="password"
               id="password"
               placeholder="••••••••"
@@ -128,19 +121,13 @@ export default function Login() {
         </div>
 
         <p className="mt-6 text-center text-sm text-gray-600">
-          Don’t have an account?{" "}
-          <Link
-            to="/signup"
-            className="text-[#2563EB] font-semibold hover:underline"
-          >
+          Don’t have an account?{' '}
+          <Link to="/signup" className="text-[#2563EB] font-semibold hover:underline">
             Sign Up
           </Link>
         </p>
       </div>
-      <img
-        src="/Login-rafiki.png"
-        style={{ height: "600px", width: "600px" }}
-      />
+      <img src="/Login-rafiki.png" style={{ height: '600px', width: '600px' }} />
     </div>
   );
 }

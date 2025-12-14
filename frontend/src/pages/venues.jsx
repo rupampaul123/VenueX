@@ -1,75 +1,69 @@
-import { Card, CardContent } from "../components/card";
-import { Button } from "../components/button";
-import { Search, MapPin, Star } from "lucide-react";
-import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-import Navbar from "../components/Navbar";
-import Cookies from "js-cookie";
+import { Card, CardContent } from '../components/card';
+import { Button } from '../components/button';
+import { Search, MapPin, Star } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import Navbar from '../components/Navbar';
+import Cookies from 'js-cookie';
 
 export default function Venue() {
   const [venues, setVenues] = useState([]);
   const [venues1, setVenues1] = useState([]);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
 
-  const [price, setPrice] = useState("Price");
-  const [location, setLocation] = useState("Location");
-  const [rating, setRating] = useState("Rating");
+  const [price, setPrice] = useState('Price');
+  const [location, setLocation] = useState('Location');
+  const [rating, setRating] = useState('Rating');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    fetch("https://venuex-production.up.railway.app/venues")
-      .then((res) => res.json())
-      .then((res) => {
+    fetch('https://venuex-bmu7.onrender.com/venues')
+      .then(res => res.json())
+      .then(res => {
         setVenues(res);
         setVenues1(res);
       });
   }, []);
 
-
-
   function applyFilters() {
     var temp = [...venues];
     if (search) {
       temp = temp.filter(
-        (venue) =>
+        venue =>
           venue.name.toLowerCase().includes(search.toLowerCase()) ||
           venue.location.toLowerCase().includes(search.toLowerCase())
       );
     }
 
-    if (location && location !== "Location") {
-      temp = temp.filter((venue) =>
-        venue.location.toLowerCase().includes(location.toLowerCase())
-      );
+    if (location && location !== 'Location') {
+      temp = temp.filter(venue => venue.location.toLowerCase().includes(location.toLowerCase()));
     }
 
-    if (rating && rating !== "Rating") {
-      temp = temp.filter((venue) => venue.rating >= parseFloat(rating));
+    if (rating && rating !== 'Rating') {
+      temp = temp.filter(venue => venue.rating >= parseFloat(rating));
     }
 
-    if (price === "Low to High") {
+    if (price === 'Low to High') {
       temp.sort((a, b) => a.price - b.price);
-    } else if (price === "High to Low") {
+    } else if (price === 'High to Low') {
       temp.sort((a, b) => b.price - a.price);
     }
 
     setVenues1(temp);
   }
 
-
   useEffect(() => {
     applyFilters();
   }, [search, location, rating, price, venues]);
 
   useEffect(() => {
-    const token = Cookies.get("token");
+    const token = Cookies.get('token');
     if (token) setIsLoggedIn(true);
   }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-blue-50">
       <Navbar />
-
 
       <div className="max-w-7xl mx-auto px-6 py-12">
         <h1 className="text-4xl font-bold text-gray-800 mb-2">
@@ -87,14 +81,14 @@ export default function Venue() {
               type="text"
               placeholder="Search by name, location, or type..."
               className="flex-1 px-4 py-2 bg-transparent outline-none"
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={e => setSearch(e.target.value)}
             />
           </div>
 
           <div className="flex items-center gap-3">
             <select
               value={price}
-              onChange={(e) => setPrice(e.target.value)}
+              onChange={e => setPrice(e.target.value)}
               className="px-4 py-2 rounded-xl border text-gray-700 shadow-sm"
             >
               <option>Price</option>
@@ -104,7 +98,7 @@ export default function Venue() {
 
             <select
               value={location}
-              onChange={(e) => setLocation(e.target.value)}
+              onChange={e => setLocation(e.target.value)}
               className="px-4 py-2 rounded-xl border text-gray-700 shadow-sm"
             >
               <option value="Location">Location</option>
@@ -116,7 +110,7 @@ export default function Venue() {
 
             <select
               value={rating}
-              onChange={(e) => setRating(e.target.value)}
+              onChange={e => setRating(e.target.value)}
               className="px-4 py-2 rounded-xl border text-gray-700 shadow-sm"
             >
               <option>Rating</option>
@@ -129,38 +123,30 @@ export default function Venue() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 pb-16">
-        {venues1.map((venue) => (
+        {venues1.map(venue => (
           <Card
             key={venue.id}
             className="overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition"
           >
-            <img
-              src={venue.image}
-              alt={venue.name}
-              className="h-48 w-full object-cover"
-            />
+            <img src={venue.image} alt={venue.name} className="h-48 w-full object-cover" />
             <CardContent className="p-4">
-              <h2 className="text-xl font-semibold text-gray-800">
-                {venue.name}
-              </h2>
+              <h2 className="text-xl font-semibold text-gray-800">{venue.name}</h2>
               <div className="flex items-center text-gray-500 text-sm mt-1">
                 <MapPin size={16} className="mr-1 text-blue-600" />
                 {venue.location}
               </div>
               <div className="flex items-center justify-between mt-3">
-                <span className="text-lg font-bold text-blue-600">
-                  ₹{venue.price}
-                </span>
+                <span className="text-lg font-bold text-blue-600">₹{venue.price}</span>
                 <div className="flex items-center text-yellow-500">
                   <Star size={16} fill="currentColor" />
-                  <span className="ml-1 text-sm text-gray-700">
-                    {venue.rating}
-                  </span>
+                  <span className="ml-1 text-sm text-gray-700">{venue.rating}</span>
                 </div>
               </div>
-              <Link to={`/details/${venue._id}`}><Button className="w-full mt-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl">
-                View Details
-              </Button> </Link>
+              <Link to={`/details/${venue._id}`}>
+                <Button className="w-full mt-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl">
+                  View Details
+                </Button>{' '}
+              </Link>
             </CardContent>
           </Card>
         ))}
