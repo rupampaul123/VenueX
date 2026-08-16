@@ -102,21 +102,16 @@ export default function Login() {
         </div>
 
         <div className="mt-6 space-y-3">
-          <button className="w-full py-3 border border-gray-300 rounded-xl flex items-center justify-center hover:bg-gray-50 transition">
+          <button
+            onClick={() => (window.location.href = 'https://venuex-bmu7.onrender.com/auth/google')}
+            className="w-full py-3 border border-gray-300 rounded-xl flex items-center justify-center hover:bg-gray-50 transition"
+          >
             <img
               src="https://www.svgrepo.com/show/355037/google.svg"
               alt="Google"
               className="w-5 h-5 mr-2"
             />
             Continue with Google
-          </button>
-          <button className="w-full py-3 border border-gray-300 rounded-xl flex items-center justify-center hover:bg-gray-50 transition">
-            <img
-              src="https://www.svgrepo.com/show/475647/facebook-color.svg"
-              alt="Facebook"
-              className="w-5 h-5 mr-2"
-            />
-            Continue with Facebook
           </button>
         </div>
 

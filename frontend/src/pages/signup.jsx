@@ -131,7 +131,11 @@ export default function Signup() {
           <hr className="flex-1 border-gray-300" />
         </div>
 
-        <button className="w-full border border-gray-300 text-[#2563EB] font-medium py-3 rounded-xl hover:bg-gray-50 transition">
+        <button
+          type="button"
+          onClick={() => (window.location.href = 'https://venuex-bmu7.onrender.com/auth/google')}
+          className="w-full border border-gray-300 text-[#2563EB] font-medium py-3 rounded-xl hover:bg-gray-50 transition"
+        >
           Continue with Google
         </button>
 

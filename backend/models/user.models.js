@@ -1,31 +1,39 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
+  name: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  password: {
+    type: String,
+    required: function () {
+      return !this.googleId;
     },
-    email:{
-        type: String,
-        required: true,
-        unique: true
+  },
+  phoneno: {
+    type: Number,
+    required: function () {
+      return !this.googleId;
     },
-    password: {
-        type: String,
-        required: true,
-    }, 
-    phoneno: {
-        type: Number,
-        required: true
-    },
-    role: {
-        type: String,
-        required: true,
-        default: "user"
-    }
-})
+  },
+  role: {
+    type: String,
+    required: true,
+    default: 'user',
+  },
+  googleId: {
+    type: String,
+    unique: true,
+    sparse: true,
+  },
+});
 
-  const user = mongoose.model('user', userSchema);
+const user = mongoose.model('user', userSchema);
 
-
-  module.exports = user;
+module.exports = user;
